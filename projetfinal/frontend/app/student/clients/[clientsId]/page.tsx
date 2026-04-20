@@ -26,28 +26,28 @@ const ClientAccountsPage = async ({ params, searchParams }: PageProps) => {
         <div className="home-content">
           <HeaderBox
             type="greeting"
-            title="Welcome"
+            title="Bienvenue"
             userName={
               currentClient?.first_name ||
               currentClient?.firstName ||
               "Client"
             }
-            subtext="No bank accounts found for this client."
+            subtext="Aucun compte bancaire trouvé pour ce client."
           />
         </div>
       </section>
     );
   }
 
-  // ✅ accountId = string
   const accountId =
     (typeof searchParams.id === "string" && searchParams.id) ||
-    String(accountsData[0].id); 
-  const accountIdNum = Number(accountId); 
+    String(accountsData[0].id);
+
+  const accountIdNum = Number(accountId);
 
   const accountDetails = await getClientAccountServer({
     clientId,
-    accountId: Number(accountId),
+    accountId: accountIdNum,
     page: currentPage,
     pageSize: 10,
   });
@@ -58,13 +58,13 @@ const ClientAccountsPage = async ({ params, searchParams }: PageProps) => {
         <header className="home-header">
           <HeaderBox
             type="greeting"
-            title="Welcome"
+            title="Bienvenue"
             userName={
               currentClient?.first_name ||
               currentClient?.firstName ||
               "Client"
             }
-            subtext="Access and manage your account and transactions efficiently."
+            subtext="Accédez et gérez vos comptes et transactions efficacement."
           />
 
           <TotalBalanceBox
@@ -79,6 +79,7 @@ const ClientAccountsPage = async ({ params, searchParams }: PageProps) => {
           transactions={accountDetails?.transactions || []}
           accountId={accountIdNum}
           page={currentPage}
+          clientId={params.clientsId}
         />
       </div>
     </section>
